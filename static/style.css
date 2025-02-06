@@ -1,35 +1,44 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 50px auto;
 }
-
-form {
-    background-color: #ffffff;
+#chat-container {
+    border: 1px solid #ccc;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    height: 400px;
+    overflow-y: scroll;
 }
-
-h1 {
-    text-align: center;
-    color: #555;
+.message {
+    margin: 10px 0;
 }
-
-label {
-    display: block;
-    margin-bottom: 8px;
+.user-message {
+    text-align: right;
+    color: blue;
+}
+.bot-message {
+    text-align: left;
+    color: green;
+}
+.bot-message-happy {
+    color: #28a745;
     font-weight: bold;
 }
-
-input[type="number"], input[type="checkbox"] {
-    width: 100%;
-    padding: 10px;
+.bot-message-sad {
+    color: #dc3545;
+    font-weight: bold;
+}
+.loading {
+    color: gray;
+    font-style: italic;
+}
+.error-message {
+    color: #dc3545;
+    font-weight: bold;
+    font-style: italic;
+}
+button:disabled {
+    background-color: #ccc;
 }
