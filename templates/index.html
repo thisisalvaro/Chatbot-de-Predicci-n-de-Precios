@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot de Predicción de Precios</title>
     <link rel="stylesheet" href="../static/style.css">
-
 </head>
 <body>
-    <h1>Chatbot de Predicción de Precios de Viviendas</h1>
-    <div id="chat-container">
-        <div id="messages"></div>
+
+    <div class="chat-container">
+        <h1>🏡 Chatbot de Predicción de Precios</h1>
+        <div id="chat-box">
+            <div id="messages"></div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Escribe tu respuesta..." autofocus>
+            <button id="send-btn" onclick="sendMessage()">➤</button>
+        </div>
     </div>
-    <br>
-    <input type="text" id="user-input" placeholder="Escribe tu respuesta..." style="width: 80%;">
-    <button id="send-btn" onclick="sendMessage()">Enviar</button>
 
     <script>
         const userId = Math.random().toString(36).substr(2, 9); // Genera un ID único para el usuario
@@ -27,24 +30,20 @@
             if (!userMessage) return;
             appendMessage(userMessage, 'user-message');
             input.value = "";
-            sendButton.disabled = true; // Disable button while waiting for response
-            appendMessage("Cargando...", 'loading'); // Show loading message
+            sendButton.disabled = true; // Deshabilitar botón mientras responde
+            appendMessage("⏳ Cargando...", 'loading');
 
             try {
                 const response = await fetch("/chatbot", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: userMessage,
-                        user_id: userId
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userMessage, user_id: userId })
                 });
-                const data = await response.json();
-                document.querySelector(".loading")?.remove(); // Remove loading message
 
-                // Display the response with some feeling
+                const data = await response.json();
+                document.querySelector(".loading")?.remove(); // Eliminar mensaje de carga
+
+                // Estilos según la respuesta
                 if (data.response.includes('¡Ya has respondido todas las preguntas!')) {
                     appendMessage(data.response, 'bot-message-happy');
                 } else if (data.response.includes('Error')) {
@@ -55,9 +54,9 @@
 
             } catch (error) {
                 document.querySelector(".loading")?.remove();
-                appendMessage("¡Ups! Algo salió mal. Estoy teniendo problemas para conectarme. Por favor, inténtalo nuevamente.", 'error-message');
+                appendMessage("❌ Error de conexión. Inténtalo nuevamente.", 'error-message');
             } finally {
-                sendButton.disabled = false; // Enable button after response
+                sendButton.disabled = false; // Habilitar botón
             }
         }
 
@@ -70,5 +69,6 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     </script>
+
 </body>
 </html>
